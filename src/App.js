@@ -4,14 +4,23 @@ import { useState } from "react";
 function App() {
 
   const InitialList = []; //Initial list
-  
-  // handle click of button
+
+  // handle click of button to add new Item to list and clearfield
   const [List, setList] = useState(InitialList);
   function handleAdd() {
+    if (name.trim().length === 0){
+      return;
+    }
     const newList = List.concat({name, id: Math.random().toString()});
     setList(newList);
     setName('');//clears the input field
   }
+
+  // remove items on click  
+    function removeElement(id) {
+    const deletedNewList = List.filter(List => List.id !== id);
+    setList(deletedNewList);
+    };
 
   //handle change of input field
   const [name, setName] = useState("");
@@ -20,8 +29,10 @@ function App() {
   }
 
   // Generating JSX code for Displaying each item
-  const ListItem = List.map((Item, Index) => {
-    return <p key={Item.id} className="ListItem">{Item.name}</p>;
+  const ListItem = List.map((Item) => {
+    return <p key={Item.id} className="ListItem" onClick={() => removeElement(Item.id)}>
+                {Item.name}
+            </p>;
   });
 
   return (
