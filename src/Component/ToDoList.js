@@ -11,21 +11,24 @@ function ToDoList() {
   const [isValid, setIsValid] = useState(true);//set red color in input box
   const Message = 'Please enter something';
   function handleAdd() {
-    if (name.trim().length === 0){ //when blank it adds nothing
+      if (name.trim().length === 0){ //when blank it adds nothing
       return (
         [setName('Please enter something'),
         setIsValid(false)]  
         )}   
       
-    if (name===Message){
-     return null;
-     }
-
+      if (name===Message){
+      return null;
+      }
+    
     const newList = List.concat({name, id: Math.random().toString()});
     setList(newList);
     setName('');//clears the input field
   }
 
+  // checking for duplicate 
+  const uniqueList = [...new Map(List.map(item => [item.name, item])).values()]
+  
   // remove items on click  
   function removeElement(id) {
     const deletedNewList = List.filter(List => List.id !== id);
@@ -45,17 +48,18 @@ function ToDoList() {
   }
 
   // Generating JSX code for Displaying each item
-  const ListItem = List.map((Item) => {
+  const ListItem = uniqueList.map((Item) => {
     return <p key={Item.id} className="ListItem" onClick={() => removeElement(Item.id)}>
         {Item.name}
         <img src={DelIcon} alt="delete-icon" />
     </p>;
   });
 
+
   return (
      <div className="card-container">
         <div className="input-container">
-          <input type="text" value={name}  
+          <input type="text" value={name} placeholder={"Enter the Name of Item"}  
             onChange={handleChange} 
             onClick={handleClear}
             style={{color: !isValid ? 'red' : 'black'}} //inline dynamic styling
