@@ -14,8 +14,8 @@ function SearchBar (props){
 
     return ( 
         <div>
-            <div className="serach-Container ">
-                <input className="ml-3 p-2 border border-transparent"
+            <div className="serach-Container">
+                <input className="ml-3 p-2 border border-transparent w-36 md:w-auto"
                     type="text"
                     value={value}
                     onChange={addHandler}
@@ -24,7 +24,7 @@ function SearchBar (props){
                 onClick={()=>onSearch(value)}
                 >Search Item</button>
             </div>
-           { <div className="ml-3 mr-4 p-2 cursor-pointer">
+           {<div className="ml-3 mr-4 p-2 cursor-pointer">
                 {props.searchList.filter(Item => {
                     const searchItem = value.toLowerCase();
                     const Name = Item.name.toLowerCase();

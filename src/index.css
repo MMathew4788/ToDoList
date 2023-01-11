@@ -5,7 +5,7 @@
 
 .card-container {@apply flex flex-col bg-slate-400 m-auto p-3 rounded-xl;}
 .input-container {@apply flex flex-col md:flex-row pt-10 mt-3 space-y-3 md:space-y-0;}
-.search-container {@apply flex flex-row justify-between border;} 
+.search-container {@apply flex flex-row justify-between border space-x-0;} 
 .button{@apply bg-black text-white mx-3 px-5 py-2 rounded-lg hover:scale-105;}
 .button-search{@apply bg-slate-600 text-white mr-3 px-5 py-2 border hover:border-slate-600;}
 .label{@apply text-center font-bold mt-3 p-3 border border-x-transparent border-b-transparent border-t-black;}
