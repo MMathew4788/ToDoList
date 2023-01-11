@@ -4,8 +4,8 @@ import DelIcon from "./image/delete-icon.svg"
 
 function ToDoList() {
 
-  const InitialList = []; //Initial list
-
+  let InitialList = JSON.parse(localStorage.getItem('savedList'))||[];//Initial list
+  
   // handle click of button to add new Item to list and clearfield
   const [List, setList] = useState(InitialList);
   const [isValid, setIsValid] = useState(true);//set red color in input box
@@ -23,6 +23,8 @@ function ToDoList() {
     
     const newList = List.concat({name, id: Math.random().toString()});
     setList(newList);
+    
+    localStorage.setItem('savedList', JSON.stringify(newList)); //saving to local storage
     setName('');//clears the input field
   }
 
@@ -33,6 +35,7 @@ function ToDoList() {
   function removeElement(id) {
     const deletedNewList = List.filter(List => List.id !== id);
     setList(deletedNewList);
+    localStorage.setItem('savedList', JSON.stringify(deletedNewList)); //saving to local storage
   };
 
   //handle change of input field
@@ -58,7 +61,7 @@ function ToDoList() {
 
   return (
      <div className="card-container">
-        <div className="input-container">
+          <div className="input-container">
           <input type="text" value={name} placeholder={"Enter the Name of Item"}  
             onChange={handleChange} 
             onClick={handleClear}
