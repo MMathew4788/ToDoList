@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import DelIcon from "./image/delete-icon.svg"
+import SearchBar from "./SearchBar";
 
 function ToDoList() {
 
@@ -61,6 +62,7 @@ function ToDoList() {
 
   return (
      <div className="card-container">
+          <SearchBar searchList={uniqueList}/>
           <div className="input-container">
           <input type="text" value={name} placeholder={"Enter the Name of Item"}  
             onChange={handleChange} 
