@@ -3,7 +3,7 @@ import { useState } from "react";
 import DelIcon from "./image/delete-icon.svg"
 import SearchBar from "./SearchBar";
 
-function ToDoList() {
+const ToDoList=()=> {
 
   let InitialList = JSON.parse(localStorage.getItem('savedList'))||[];//Initial list
   
@@ -11,7 +11,7 @@ function ToDoList() {
   const [List, setList] = useState(InitialList);
   const [isValid, setIsValid] = useState(true);//set red color in input box
   const Message = 'Please enter something';
-  function handleAdd() {
+  const handleAdd=()=> {
       if (name.trim().length === 0){ //when blank it adds nothing
       return (
         [setName('Please enter something'),
@@ -33,31 +33,42 @@ function ToDoList() {
   const uniqueList = [...new Map(List.map(item => [item.name, item])).values()]
   
   // remove items on click  
-  function removeElement(id) {
+  const removeElement=(id)=> {
     const deletedNewList = List.filter(List => List.id !== id);
     setList(deletedNewList);
     localStorage.setItem('savedList', JSON.stringify(deletedNewList)); //saving to local storage
   };
 
+      //striking the item in click
+    const strikeElement=(e)=> {
+      if (e.target.style.textDecoration) {
+    e.target.style.removeProperty('text-decoration');
+    } else {
+    e.target.style.setProperty('text-decoration', 'line-through');
+    } }
+  
+
   //handle change of input field
   const [name, setName] = useState("");
-  function handleChange(event) {
-    setName(event.target.value);
+  const handleChange=(e)=> {
+    setName(e.target.value);
   }
 
   //Clearing the input field on click
-  function handleClear(){
+  const handleClear=()=>{
     setName('');
     setIsValid(true);
   }
 
   // Generating JSX code for Displaying each item
   const ListItem = uniqueList.map((Item) => {
-    return <p key={Item.id} className="ListItem" onClick={() => removeElement(Item.id)}>
-        {Item.name}
-        <img src={DelIcon} alt="delete-icon" />
+    return <p key={Item.id} className="ListItem" onClick={strikeElement}>       
+        {Item.name} 
+        <img src={DelIcon} alt="delete-icon" className="cursor-pointer" 
+        onClick={() => removeElement(Item.id)}/>
     </p>;
   });
+
 
 
   return (
@@ -74,6 +85,7 @@ function ToDoList() {
         </div>
         <div className="space-y-3 m-3">
           <div className="label">List of Items</div>
+          
           {ListItem}
         </div>
     </div>

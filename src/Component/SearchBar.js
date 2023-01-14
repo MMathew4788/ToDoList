@@ -2,15 +2,24 @@ import React from "react";
 import { useState } from "react";
 
 
-function SearchBar (props){
+const SearchBar=(props)=>{
     
     const [value, setValue] =useState('') 
     const addHandler=(e)=>{
+        e.preventDefault();
         setValue(e.target.value);
     }
     const onSearch=(searchItem)=>{
         setValue(searchItem);
     }
+
+    //Search List
+    const SearchList= props.searchList.filter(Item => {
+        const searchItem = value.toLowerCase();
+        const Name = Item.name.toLowerCase();
+        return searchItem && Name.startsWith(searchItem) && Name !== searchItem;
+    }).map((Item)=>{return <p onClick={()=>onSearch(Item.name)} key={Item.id}>{Item.name}</p>})
+
 
     return ( 
         <div>
@@ -24,15 +33,7 @@ function SearchBar (props){
                 onClick={()=>onSearch(value)}
                 >Search Item</button>
             </div>
-           {<div className="ml-3 mr-4 p-2 cursor-pointer">
-                {props.searchList.filter(Item => {
-                    const searchItem = value.toLowerCase();
-                    const Name = Item.name.toLowerCase();
-                    return searchItem && Name.startsWith(searchItem) && Name !== searchItem;
-                })
-                .map((Item)=>{return <p onClick={()=>onSearch(Item.name)} key={Item.id}>{Item.name}</p>})}                
-            </div>}
-            
+            {SearchList}
         </div>
     );
 }
