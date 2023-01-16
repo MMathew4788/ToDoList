@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import DelIcon from "./image/delete-icon.svg"
-import SearchBar from "./SearchBar";
 
 const ToDoList=()=> {
 
@@ -39,7 +38,7 @@ const ToDoList=()=> {
     localStorage.setItem('savedList', JSON.stringify(deletedNewList)); //saving to local storage
   };
 
-      //striking the item in click
+   //striking the item in click
     const strikeElement=(e)=> {
       if (e.target.style.textDecoration) {
     e.target.style.removeProperty('text-decoration');
@@ -55,25 +54,47 @@ const ToDoList=()=> {
   }
 
   //Clearing the input field on click
-  const handleClear=()=>{
+    const handleClear=()=>{
     setName('');
     setIsValid(true);
-  }
+    }
+
+   // search Bar
+    const [searchvalue, setSearchValue] =useState('') 
+    const addHandler=(e)=>{
+        e.preventDefault();
+        setSearchValue(e.target.value);
+    }
+    const onSearch=(searchItem)=>{
+        setSearchValue(searchItem);
+    }
+
+    //Search List
 
   // Generating JSX code for Displaying each item
-  const ListItem = uniqueList.map((Item) => {
-    return <p key={Item.id} className="ListItem" onClick={strikeElement}>       
+  const ListItem = uniqueList.filter((Item) => {
+    const searchItem = searchvalue.toLowerCase();
+    const Name = Item.name.toLowerCase();
+    return Name.includes(searchItem)}).map((Item) => {
+    return <p key={Item.id} className="ListItem" onClick={strikeElement}>   
         {Item.name} 
         <img src={DelIcon} alt="delete-icon" className="cursor-pointer" 
         onClick={() => removeElement(Item.id)}/>
     </p>;
   });
 
-
-
   return (
      <div className="card-container">
-          <SearchBar searchList={uniqueList}/>
+          <div className="serach-Container">
+                <input className="ml-3 p-2 border border-transparent w-36 md:w-auto"
+                    type="text"
+                    value={searchvalue}
+                    onChange={addHandler}
+                    placeholder="Search item"/>
+                <button className="button-search"
+                onClick={()=>onSearch(searchvalue)}
+                >Search Item</button>
+          </div>
           <div className="input-container">
           <input type="text" value={name} placeholder={"Enter the Name of Item"}  
             onChange={handleChange} 
