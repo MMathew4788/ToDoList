@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import DelIcon from "./image/delete-icon.svg"
+import AddItem from "./AddItem";
+import ListItem from "./ListItem";
+import SearchItem from "./SearchItem";
 
 const ToDoList=()=> {
 
@@ -38,7 +40,7 @@ const ToDoList=()=> {
     localStorage.setItem('savedList', JSON.stringify(deletedNewList)); //saving to local storage
   };
 
-   //striking the item in click
+   //striking the item on click
     const strikeElement=(e)=> {
       if (e.target.style.textDecoration) {
     e.target.style.removeProperty('text-decoration');
@@ -69,45 +71,13 @@ const ToDoList=()=> {
         setSearchValue(searchItem);
     }
 
-    //Search List
-
-  // Generating JSX code for Displaying each item
-  const ListItem = uniqueList.filter((Item) => {
-    const searchItem = searchvalue.toLowerCase();
-    const Name = Item.name.toLowerCase();
-    return Name.includes(searchItem)}).map((Item) => {
-    return <p key={Item.id} className="ListItem" onClick={strikeElement}>   
-        {Item.name} 
-        <img src={DelIcon} alt="delete-icon" className="cursor-pointer" 
-        onClick={() => removeElement(Item.id)}/>
-    </p>;
-  });
-
   return (
      <div className="card-container">
-          <div className="serach-Container">
-                <input className="ml-3 p-2 border border-transparent w-36 md:w-auto"
-                    type="text"
-                    value={searchvalue}
-                    onChange={addHandler}
-                    placeholder="Search item"/>
-                <button className="button-search"
-                onClick={()=>onSearch(searchvalue)}
-                >Search Item</button>
-          </div>
-          <div className="input-container">
-          <input type="text" value={name} placeholder={"Enter the Name of Item"}  
-            onChange={handleChange} 
-            onClick={handleClear}
-            style={{color: !isValid ? 'red' : 'black'}} //inline dynamic styling
-            //Setting CSS classes dynamically 
-            className={`mx-3 p-2 ${!isValid ? 'border border-red-900':'border border-transparent'}`}/>
-          <button type="button" onClick={handleAdd} className="button"> Add Item </button>
-        </div>
+          <SearchItem searchvalue={searchvalue} onSearch={onSearch} addHandler={addHandler} handleAdd={handleAdd}/>
+          <AddItem name={name} handleChange={handleChange} handleClear={handleClear} isValid={isValid}/>
         <div className="space-y-3 m-3">
           <div className="label">List of Items</div>
-          
-          {ListItem}
+          <ListItem uniqueList={uniqueList} searchvalue={searchvalue} removeElement={removeElement} strikeElement={strikeElement}/>
         </div>
     </div>
      );
