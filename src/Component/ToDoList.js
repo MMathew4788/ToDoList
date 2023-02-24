@@ -74,7 +74,7 @@ const ToDoList=()=> {
   return (
      <div className="card-container">
           <SearchItem searchvalue={searchvalue} onSearch={onSearch} addHandler={addHandler} handleAdd={handleAdd}/>
-          <AddItem name={name} handleChange={handleChange} handleClear={handleClear} isValid={isValid}/>
+          <AddItem name={name} handleChange={handleChange} handleAdd={handleAdd} handleClear={handleClear} isValid={isValid}/>
         <div className="space-y-3 m-3">
           <div className="label">List of Items</div>
           <ListItem uniqueList={uniqueList} searchvalue={searchvalue} removeElement={removeElement} strikeElement={strikeElement}/>
